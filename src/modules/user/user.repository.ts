@@ -6,8 +6,8 @@ import { UserEntity } from '@entities/user.entity';
 import { InscriptionObject } from '@type/common';
 
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
+import { LoggingEntity } from '@entities/logging.entity';
 
 @Injectable()
 export class UserRepository extends Repository<UserEntity> {
@@ -17,15 +17,8 @@ export class UserRepository extends Repository<UserEntity> {
 
   async createUser(dto: CreateUserDto): Promise<UserEntity> {
     const newUser = this.create(dto);
-    return await this.save(newUser);
-  }
-
-  async findById(id: string): Promise<UserEntity> {
-    const user = await this.findOne({
-      where: { id },
-    });
-
-    return user;
+    const savedUser = await this.save(newUser);
+    return await this.save(savedUser);
   }
 
   async findByAddress(userAddress: string): Promise<UserDto> {
@@ -37,21 +30,5 @@ export class UserRepository extends Repository<UserEntity> {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  async getUserInscriptionsByCollection(
-    ownerAddress: string,
-    offset: number,
-    limit: number,
-  ): Promise<InscriptionObject> {
-    const { data } = await axios.get(
-      `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens?ownerAddress=${ownerAddress}&offset=${offset}&limit=${limit}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.MAGIC_EDEN_TOKEN}`,
-        },
-      },
-    );
-    return data;
   }
 }

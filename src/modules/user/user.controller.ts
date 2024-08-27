@@ -6,18 +6,11 @@ import {
   HttpStatus,
   Param,
   Post,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-
-import { User } from '@decorators/user.decorator';
-import { UserEntity } from '@entities/user.entity';
-import JwtGuard from '@guards/jwt.guard';
-import { UserResponseDto } from '@modules/auth/dto/user-response.dto';
-import { CollectionsResponse, InscriptionObject } from '@type/common';
-
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Controller('users')
 @ApiTags('Users')
