@@ -10,6 +10,8 @@ import {
 import { AbstractEntity } from '@type/shared/abstract.entity';
 import { LoggingEntity } from './logging.entity';
 import { LoggingDto } from '@modules/logging/dto/logging.dto';
+import { OrdersDto } from '@modules/orders/dto/orders.dto';
+import { OrdersEntity } from './orders.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity extends AbstractEntity {
@@ -28,4 +30,8 @@ export class UserEntity extends AbstractEntity {
   @OneToMany(() => LoggingEntity, (logging) => logging.user)
   @JoinColumn()
   logging: LoggingDto[];
+
+  @OneToMany(() => OrdersEntity, (orders) => orders.user)
+  @JoinColumn()
+  orders: OrdersDto[];
 }
